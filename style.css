@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+header {
+    display: flex;
+    background-color: #FF5722;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.search-IP {
+    margin: 50px;
+    text-align: center;
+}
+
+#ipForm {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#ip {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #FF5722;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #e64a19;
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 60%;
+    margin: 20px auto;
+    font-size: 18px;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#flag {
+    margin: 10px 0 10px 0;
+    width: 70px;
+    height: auto;
+}
+
+footer {
+    display: flex;
+    position: absolute;
+    background-color: #FF5722;
+    color: white;
+    width: 100%;
+    height: 80px;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+p {
+    font-size: 14px;
+}
+
