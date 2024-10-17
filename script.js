@@ -6,7 +6,7 @@
         }
     });
 
-    $('#lookup-button').on('click', function () {
+    $('#search-button').on('click', function () {
         let ip = $('#ip-input').val().trim();
 
         if (ip === "") {

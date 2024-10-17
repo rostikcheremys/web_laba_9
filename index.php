@@ -13,7 +13,7 @@
 
     <div class="search-IP">
         <input type="text" id="ip-input" placeholder="Enter IP address.."/>
-        <button type="button" id="lookup-button">Search</button>
+        <button type="button" id="search-button">Search</button>
     </div>
 
     <main id="main">
