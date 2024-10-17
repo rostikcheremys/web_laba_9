@@ -8,14 +8,29 @@
 
     $('#lookup-button').on('click', function () {
         let ip = $('#ip-input').val().trim();
+
+        if (ip === "") {
+            displayMessage("[Enter IP address]");
+            displayInfo("")
+            return;
+        }
+
         ip = ip.replace(/^\.+|\.+$/g, '').replace(/\.{2,}/g, '.');
 
-        if (!/^(\d{1,3}\.){3}\d{1,3}$/.test(ip)) {
+        if (!isValid(ip)) {
             displayResult(ip, "Invalid IP Address");
             return;
         }
 
         $('#ip-result').text(ip);
+        fetchInfo(ip);
+    });
+
+    function isValid(ip) {
+        return /^(\d{1,3}\.){3}\d{1,3}$/.test(ip);
+    }
+
+    function fetchInfo(ip) {
         $.ajax({
             type: "POST",
             url: "ip_info_json.php",
@@ -23,37 +38,52 @@
             dataType: "json",
             success: function (data) {
                 if (data.error) {
-                    if (data.error === "invalid-request") {
-                        displayResult(ip, "Invalid IP Address");
-                    } else if (data.error === "reserved range") {
-                        displayResult(ip, "Reserved IP");
-                    } else {
-                        displayResult(ip, data.error);
-                    }
+                    handleError(ip, data.error);
                 } else {
-                    $('#country-code').text(data.countryCode || 'N/A');
-                    $('#country-name').text(data.country || 'N/A');
-                    $('#city').text(data.city || 'N/A');
-                    $('#postal-code').text(data.zip || 'N/A');
-                    $('#latitude').text(data.lat || 'N/A');
-                    $('#longitude').text(data.lon || 'N/A');
-                    $('#flag').attr('src', `flags_ISO_3166-1/${data.countryCode ? data.countryCode.toLowerCase() : 'unitednations'}.png`);
+                    displayInfo(data);
                 }
             },
             error: function () {
                 displayResult(ip, 'Server request error');
             }
         });
-    });
+    }
 
-    function displayResult(ip, errorMsg) {
-        $('#ip-result').text(ip + " [" + errorMsg + "]");
-        $('#country-code').text('N/A');
-        $('#country-name').text('N/A');
-        $('#city').text('N/A');
-        $('#postal-code').text('N/A');
-        $('#latitude').text('N/A');
-        $('#longitude').text('N/A');
+    function handleError(ip, error) {
+        switch (error) {
+            case "invalid-request":
+            case "reserved range":
+                displayResult(ip, error === "invalid-request" ? "Invalid IP Address" : "Reserved IP");
+                break;
+            default:
+                displayResult(ip, error);
+        }
+    }
+
+    function displayInfo(data) {
+        $('#country-code').text(data.countryCode || 'N/A');
+        $('#country-name').text(data.country || 'N/A');
+        $('#region').text(data.region || 'N/A');
+        $('#region-name').text(data.regionName || 'N/A');
+        $('#city').text(data.city || 'N/A');
+        $('#postal-code').text(data.zip || 'N/A');
+        $('#latitude').text(data.lat || 'N/A');
+        $('#longitude').text(data.lon || 'N/A');
+        $('#flag').attr('src', `flags_ISO_3166-1/${data.countryCode ? data.countryCode.toLowerCase() : '_unitednations'}.png`);
+    }
+
+    function displayResult(ip, errorMessage) {
+        let resultHtml = `${ip} <span class="${errorMessage === "Invalid IP Address" ? 'invalid-ip ip-result' : 'reserved-ip'}">[${errorMessage}]</span>`;
+        $('#ip-result').html(resultHtml);
+        clearInfo();
+    }
+
+    function clearInfo() {
+        $('#country-code, #country-name, #region-name, #region, #city, #postal-code, #latitude, #longitude').text('N/A');
         $('#flag').attr('src', 'flags_ISO_3166-1/_unitednations.png');
+    }
+
+    function displayMessage(message) {
+        $('#ip-result').html(`<span class="error">${message}</span>`);
     }
 });

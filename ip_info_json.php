@@ -1,6 +1,4 @@
 ﻿<?php
-header('Content-Type: application/json');
-
 $ip = $_POST['ip'];
 $json_url = "http://ip-api.com/json/{$ip}";
 
@@ -12,4 +10,3 @@ if (isset($json_data['status']) && $json_data['status'] == 'fail') {
 } else {
     echo json_encode($json_data);
 }
-?>
