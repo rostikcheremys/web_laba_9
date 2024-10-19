@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $('#ip-input').on('keypress', function (e) {
         const char = String.fromCharCode(e.which);
-        if (!/[0-9:.]/.test(char)) {
+        if (!/[0-9.]/.test(char)) {
             e.preventDefault();
         }
     });
@@ -10,7 +10,7 @@
         let ip = $('#ip-input').val().trim();
 
         if (ip === "") {
-            displayMessage("[Enter IP address]");
+            displayMessage("[Enter IP Address]");
             displayInfo("")
             return;
         }
@@ -53,7 +53,7 @@
         switch (error) {
             case "invalid-request":
             case "reserved range":
-                displayResult(ip, error === "invalid-request" ? "Invalid IP Address" : "Reserved IP");
+                displayResult(ip, error === "invalid-request" ? "Invalid IP Address" : "Reserved IP Address");
                 break;
             default:
                 displayResult(ip, error);
