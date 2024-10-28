@@ -10,8 +10,7 @@
         let ip = $('#ip-input').val().trim();
 
         if (ip === "") {
-            displayMessage("[Enter IP Address]");
-            displayInfo("")
+            getClientIP();
             return;
         }
 
@@ -49,6 +48,17 @@
         });
     }
 
+    function getClientIP() {
+        $.getJSON("http://ip-api.com/json", function(data) {
+            if (data.status === "success") {
+                displayResult(data.query, "Current IP");
+                fetchInfo(data.query);
+            } else {
+                displayResult("N/A", "Error fetching IP");
+            }
+        });
+    }
+
     function handleError(ip, error) {
         switch (error) {
             case "invalid-request":
@@ -81,9 +91,5 @@
     function clearInfo() {
         $('#country-code, #country-name, #region-name, #region, #city, #postal-code, #latitude, #longitude').text('N/A');
         $('#flag').attr('src', 'flags_ISO_3166-1/_unitednations.png');
-    }
-
-    function displayMessage(message) {
-        $('#ip-result').html(`<span class="error">${message}</span>`);
     }
 });
