@@ -51,7 +51,7 @@
     function getClientIP() {
         $.getJSON("http://ip-api.com/json", function(data) {
             if (data.status === "success") {
-                displayResult(data.query, "Current IP");
+                displayResult(data.query, "Current IP Address");
                 fetchInfo(data.query);
             } else {
                 displayResult("N/A", "Error fetching IP");
